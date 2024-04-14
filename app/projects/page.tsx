@@ -13,18 +13,20 @@ export default function Projects() {
             Projects
           </h1>
           <p className="text-lg leading-7 text-gray-500 dark:text-gray-400">
-            Showcase your projects with a hero image (16 x 9)
+            Some of the non-commercial and open source projects I've created
           </p>
         </div>
         <div className="container py-12">
           <div className="-m-4 flex flex-wrap">
             {projectsData.map((d) => (
               <Card
+                className={'max-w-[544px] p-4 md:w-1/2'}
                 key={d.title}
                 title={d.title}
                 description={d.description}
                 imgSrc={d.imgSrc}
                 href={d.href}
+                repoUrl={d.repoUrl}
               />
             ))}
           </div>
