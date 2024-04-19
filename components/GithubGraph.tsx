@@ -15,7 +15,7 @@ export default function GithubGraphSection() {
           Github Contributions ({year})
         </h1>
         <div className="text-lg leading-7 text-gray-500 dark:text-gray-400">
-          My GitHub Contributions show my ongoing open-source involvement since 2017, a fulfilling
+          My GitHub Contributions show my ongoing open-source involvement since 2016, a fulfilling
           hobby I engage in during my free time.
           <div className="text-md mt-3 flex flex-wrap gap-3 leading-7">
             {contributionYears.map((singleYear) => (
