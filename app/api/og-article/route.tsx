@@ -27,7 +27,7 @@ export async function GET(request: Request) {
     const title = decodeURIComponent(
       searchParams.has('title') ? searchParams.get('title')!.slice(0, 100) : 'My default title'
     )
-    const image = 'https://avatars.githubusercontent.com/u/28964599?v=4'
+    const image = 'https://avatars.githubusercontent.com/u/19656179?v=4'
     const date = searchParams.get('date')
     const readTime = searchParams.get('readTime')
 
