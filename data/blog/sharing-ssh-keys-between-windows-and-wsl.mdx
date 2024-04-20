@@ -1,0 +1,81 @@
+---
+title: Sharing ssh keys between Windows and WSL
+summary: Share SSH keys between Windows and WSL by creating a symlink between their .ssh folders and adjusting file permissions for seamless access.
+date: '2024-04-20'
+tags: ['ssh', 'wsl', 'windows', 'linux']
+draft: false
+---
+
+# Sharing ssh keys between Windows and WSL
+
+Managing SSH keys across Windows and WSL can feel like a juggling act. Thankfully, a simple solution exists:
+creating a symbolic link (symlink) between the `.ssh` folders in both environments. This streamlines your workflow
+and eliminates the need for duplicate keys or conversions.
+
+## Streamlining Access with Symlinks
+
+### Preparation:
+
+_Backup existing keys_: If you have existing SSH keys in your WSL `.ssh` directory, move them to a safe location to avoid conflicts.
+For example: `mv ~/.ssh ~/.ssh_old`
+
+### Creating the Symlink:
+
+1. **Open a WSL terminal:** Launch your preferred WSL distribution.
+2. **Execute the ln command:**
+
+```sh
+ln -s /mnt/c/Users/{username}/.ssh ~/.ssh
+```
+
+Replace `{username}` with your actual Windows username.
+This command creates a symlink from your Windows `.ssh` folder to your WSL home directory's `.ssh` folder.
+
+### Addressing Permission Issues:
+
+1. **Potential Error:** Git commands may initially fail with a permission error like:
+
+```
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@         WARNING: UNPROTECTED PRIVATE KEY FILE!          @
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+Permissions 0777 for 'id_ed25519' are too open.
+It is required that your private key files are NOT accessible by others.
+This private key will be ignored.
+Load key "id_ed25519": bad permissions
+git@github.com: Permission denied (publickey).
+fatal: Could not read from remote repository.
+
+Please make sure you have the correct access rights
+and the repository exists.
+```
+
+2. **Enable Metadata Options:** This occurs because WSL defaults to 777 permissions for Windows files. To fix this, enable metadata options in WSL:
+
+- Open `/etc/wsl.conf` using a text editor with root privileges (e.g., `sudo nano /etc/wsl.conf`).
+- Add the following lines:
+
+```
+[automount]
+options = "metadata"
+```
+
+- Save the changes and close the editor.
+
+3. **Restart WSL:**
+
+- Execute `wsl --shutdown` from PowerShell or Command Prompt to shut down WSL.
+- Relaunch your WSL distribution.
+
+### Setting Correct Permissions:
+
+Change file permissions: Use the `chmod` command to set appropriate permissions for your SSH key files:
+
+```sh
+chmod 600 ~/.ssh/id_rsa
+chmod 644 ~/.ssh/id_rsa.pub
+```
+
+This sets the private key (`id_rsa`) to be readable and writable only by the owner (600) and the public key (`id_rsa.pub`) to be readable by everyone and writable only by the owner (644).
+
+With these steps, your SSH keys will be seamlessly shared between Windows and WSL, enabling smooth and efficient development workflows. Happy coding!
