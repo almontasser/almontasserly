@@ -5,7 +5,7 @@ const siteMetadata = {
   headerTitle: 'Mahmoud Almontasser',
   description: 'A self-taught software engineer with a knack for shipping good and fast solutions',
   language: 'en-us',
-  theme: 'system', // system, dark or light
+  theme: 'dark', // system, dark or light
   siteUrl: 'https://almontasser.ly',
   siteRepo: 'https://github.com/almontasser/almontasserly',
   siteLogo: null,
