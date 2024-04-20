@@ -2,7 +2,11 @@
 title: Sharing ssh keys between Windows and WSL2
 summary: Share SSH keys between Windows and WSL2 by creating a symlink between their .ssh folders and adjusting file permissions for seamless access.
 date: '2024-04-20'
-tags: ['ssh', 'wsl', 'windows', 'linux']
+tags:
+  - ssh
+  - wsl
+  - windows
+  - linux
 draft: false
 ---
 
@@ -16,7 +20,7 @@ and eliminates the need for duplicate keys or conversions.
 
 ### Preparation:
 
-_Backup existing keys_: If you have existing SSH keys in your WSL `.ssh` directory, move them to a safe location to avoid conflicts.
+**Backup existing keys**: If you have existing SSH keys in your WSL `.ssh` directory, move them to a safe location to avoid conflicts.
 For example: `mv ~/.ssh ~/.ssh_old`
 
 ### Creating the Symlink:

@@ -6,10 +6,9 @@ import NewsletterForm from 'pliny/ui/NewsletterForm'
 import HeroSection from '@/components/HeroSection'
 import StatsSection from '@/components/StatsSection'
 import GithubGraphSection from '@/components/GithubGraph'
-import ProjectsSection from '@/components/ProjectsSection'
 import projectsData from '@/data/projectsData'
-import Card from '@/components/Card'
 import LatestArticles from '@/components/LatestArticles'
+import LatestProjects from '@/components/LatestProjects'
 
 const MAX_DISPLAY = 5
 
@@ -19,19 +18,7 @@ export default function Home({ posts }) {
       <HeroSection />
       {/* <StatsSection /> */}
       <GithubGraphSection />
-      <ProjectsSection
-        items={projectsData.map((singleProject) => (
-          <Card
-            key={singleProject.title}
-            className={' min-h-[290px] '}
-            title={singleProject.title}
-            description={singleProject.description}
-            imgSrc={singleProject.imgSrc}
-            href={singleProject.href}
-            repoUrl={singleProject.repoUrl}
-          />
-        ))}
-      ></ProjectsSection>
+      <LatestProjects projects={projectsData} />
       <LatestArticles posts={posts} />
       {siteMetadata.newsletter?.provider && (
         <div className="flex items-center justify-center pt-4">
