@@ -12,7 +12,8 @@ export default function HeroSection() {
         </p>
         <p className="mb-6 text-xl">
           Software developer focused on crafting robust web experiences. Skilled in advising on web
-          platform, performance, developer experience, and expert in Next.js & React.js.
+          platform, performance, developer experience, and expert in Nest.js, Databases, DevOps &
+          Networking.
         </p>
         <div className="mb-6 flex items-center justify-between">
           <div>
