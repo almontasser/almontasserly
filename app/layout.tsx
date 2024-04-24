@@ -76,6 +76,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <meta name="msapplication-TileColor" content="#000000" />
       <meta name="theme-color" media="(prefers-color-scheme: light)" content="#fff" />
       <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000" />
+      <meta name="og:site_name" content={siteMetadata.title} />
       <link rel="alternate" type="application/rss+xml" href="/feed.xml" />
       <body className="relative bg-[#10172A] bg-gradient-to-r from-slate-900 to-slate-950 pl-[calc(100vw-100%)] text-black antialiased dark:text-white">
         <ThemeProviders>
