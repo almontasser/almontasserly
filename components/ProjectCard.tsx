@@ -3,16 +3,38 @@
 import { formatDate } from 'pliny/utils/formatDate'
 import Image from './Image'
 import Link from './Link'
+import { useEffect, useState } from 'react'
 
-const ProjectCard = async ({ title, description, imgSrc, href, repoUrl, className }) => {
-  let stars = null
-  if (repoUrl) {
-    const strippedRepoUrl = repoUrl.replace('https://github.com/', '')
-    const response = await fetch(`https://api.github.com/repos/${strippedRepoUrl}`, {
-      next: { revalidate: 3600 },
-    }).then((res) => res.json())
-    response.stargazers_count && (stars = response.stargazers_count)
-  }
+// const ProjectCard = async ({ title, description, imgSrc, href, repoUrl, className }) => {
+//   let stars = null
+//   if (repoUrl) {
+//     const strippedRepoUrl = repoUrl.replace('https://github.com/', '')
+//     const response = await fetch(`https://api.github.com/repos/${strippedRepoUrl}`, {
+//       next: { revalidate: 3600 },
+//     }).then((res) => res.json())
+//     if (response.stargazers_count) {
+//       stars = response.stargazers_count
+//     }
+//   }
+
+const ProjectCard = ({ title, description, imgSrc, href, repoUrl, className }) => {
+  const [stars, setStars] = useState(null)
+
+  useEffect(() => {
+    if (repoUrl) {
+      const strippedRepoUrl = repoUrl.replace('https://github.com/', '')
+      fetch(`https://api.github.com/repos/${strippedRepoUrl}`, {
+        next: { revalidate: 3600 },
+      })
+        .then((res) => res.json())
+        .then((response) => {
+          if (response.stargazers_count) {
+            setStars(response.stargazers_count)
+          }
+        })
+        .catch(() => {})
+    }
+  }, [repoUrl])
 
   return (
     <div className={'md group relative w-full min-w-[300px] max-w-[384px] p-2 ' + className}>

@@ -8,18 +8,23 @@ const siteMetadata = {
   theme: 'dark', // system, dark or light
   siteUrl: 'https://almontasser.ly',
   siteRepo: 'https://github.com/almontasser/almontasserly',
-  siteLogo: null,
-  socialBanner: null,
+  siteLogo: `${process.env.BASE_PATH || ''}/static/images/logo.png`,
+  socialBanner: `${process.env.BASE_PATH || ''}/static/images/twitter-card.png`,
   mastodon: null,
   email: 'almontasser@outlook.com',
   github: 'https://github.com/almontasser',
-  twitter: 'https://twitter.com/Montasser93',
+  x: 'https://twitter.com/Montasser93',
+  // twitter: 'https://twitter.com/Montasser93',
   facebook: 'https://facebook.com/MahmoudAlmontasser',
   youtube: null,
   linkedin: 'https://www.linkedin.com/in/m-almuntasir',
   threads: null,
   instagram: null,
+  medium: null,
+  bluesky: null,
   locale: 'en-US',
+  // set to true if you want a navbar fixed to the top
+  stickyNav: false,
   analytics: {
     // If you want to use an analytics provider you have to add it to the
     // content security policy in the `next.config.js` file.
@@ -33,6 +38,8 @@ const siteMetadata = {
     // },
     // plausibleAnalytics: {
     //   plausibleDataDomain: '', // e.g. tailwind-nextjs-starter-blog.vercel.app
+    // If you are hosting your own Plausible.
+    //   src: '', // e.g. https://plausible.my-domain.com/js/script.js
     // },
     // simpleAnalytics: {},
     // posthogAnalytics: {
@@ -43,7 +50,7 @@ const siteMetadata = {
     // },
   },
   newsletter: {
-    // supports mailchimp, buttondown, convertkit, klaviyo, revue, emailoctopus
+    // supports mailchimp, buttondown, convertkit, klaviyo, revue, emailoctopus, beehive
     // Please add your .env file and modify it according to your selection
     provider: 'emailoctopus',
   },
@@ -80,7 +87,7 @@ const siteMetadata = {
   search: {
     provider: 'kbar', // kbar or algolia
     kbarConfig: {
-      searchDocumentsPath: 'search.json', // path to load documents to search
+      searchDocumentsPath: `${process.env.BASE_PATH || ''}/search.json`, // path to load documents to search
     },
     // provider: 'algolia',
     // algoliaConfig: {
