@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import GitHubCalendar from 'react-github-calendar'
 
-const contributionYears = [2024, 2023, 2022, 2021, 2020, 2019, 2018, 2017, 2016]
+const contributionYears = [2025, 2024, 2023, 2022, 2021, 2020, 2019, 2018, 2017, 2016]
 
 export default function GithubGraphSection() {
   const [year, setYear] = useState(2024)
@@ -36,7 +36,7 @@ export default function GithubGraphSection() {
           username="almontasser"
           year={year}
           colorScheme="dark"
-          theme={{ dark: ['#374151', '#1e44af'] }}
+          // theme={{ dark: ['#374151', '#1e44af'] }}
         />
       </div>
     </div>
