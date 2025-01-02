@@ -8,7 +8,9 @@ const Card = async ({ title, description, imgSrc, href, repoUrl, className }) =>
     const response = await fetch(`https://api.github.com/repos/${strippedRepoUrl}`, {
       next: { revalidate: 3600 },
     }).then((res) => res.json())
-    response.stargazers_count && (stars = response.stargazers_count)
+    if (response.stargazers_count) {
+      stars = response.stargazers_count
+    }
   }
 
   return (
