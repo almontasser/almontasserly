@@ -1,0 +1,43 @@
+---
+title: Using Casts in Laravel Traits
+date: 2025-01-07
+tags:
+  - laravel
+  - php
+  - elequent
+draft: false
+---
+
+# Using Casts in Laravel Traits
+
+When working with Laravel, traits are a powerful way to reuse code across multiple models. However, when it comes to defining attribute casts within a trait, directly using the `$casts` is not going to work because it won't merge by default.
+
+To add `$casts` inside a trait, you'll be using **Initializable traits** and **mergeCasts**. When you define a method named `initialize{TraitName}` in a trait, Laravel automatically calls it when the model is booted.
+
+Here’s how you can do it:
+```php
+trait HasTimestamps
+{
+	protected function initializeHasTimestamps() {
+		$this->mergeCasts([
+			'created_at' => 'datetime',
+			'updated_at' => 'datetime',
+		]);
+	}
+}
+```
+
+Now, when you use this trait in a model, the casts will be merged with the model’s existing casts:
+
+```php
+class User extends Model {
+    use HasTimestamps;
+    
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+    ];
+}
+```
+
+If you found this article helpful, please leave a comment.
+Also, if you have any questions, feel free to ask.
