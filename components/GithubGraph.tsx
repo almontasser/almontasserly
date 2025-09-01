@@ -17,7 +17,7 @@ export default function GithubGraphSection() {
     <div className="w-full">
       <div className="space-y-2 pb-8 pt-6 md:space-y-5">
         <h1 className="text-3xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl sm:leading-10 md:text-6xl md:leading-14">
-          Github Contributions ({year})
+          Github Contributions {year === 'last' ? 'Last Year' : '(' + year + ')'}
         </h1>
         <div className="text-lg leading-7 text-gray-500 dark:text-gray-400">
           My GitHub Contributions show my ongoing open-source involvement since 2016, a fulfilling
@@ -29,7 +29,7 @@ export default function GithubGraphSection() {
                 className="cursor-pointer text-primary-500 hover:text-primary-800"
                 onClick={() => setYear(singleYear)}
               >
-                {singleYear.toString().toUpperCase()}
+                {singleYear === 'last' ? 'LATEST' : singleYear}
               </button>
             ))}
           </div>
