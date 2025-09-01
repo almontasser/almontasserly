@@ -3,10 +3,15 @@
 import { useEffect, useState } from 'react'
 import GitHubCalendar from 'react-github-calendar'
 
-const contributionYears = [2025, 2024, 2023, 2022, 2021, 2020, 2019, 2018, 2017, 2016]
+const startYear = 2016
+const currentYear = new Date().getFullYear()
+const contributionYears: (number | 'last')[] = [
+  'last',
+  ...Array.from({ length: currentYear - startYear + 1 }, (_, i) => currentYear - i),
+]
 
 export default function GithubGraphSection() {
-  const [year, setYear] = useState('last')
+  const [year, setYear] = useState<number | 'last'>('last')
 
   return (
     <div className="w-full">
@@ -24,7 +29,7 @@ export default function GithubGraphSection() {
                 className="cursor-pointer text-primary-500 hover:text-primary-800"
                 onClick={() => setYear(singleYear)}
               >
-                {singleYear}
+                {singleYear.toString().toUpperCase()}
               </button>
             ))}
           </div>
