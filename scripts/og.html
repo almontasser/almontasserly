@@ -1,0 +1,64 @@
+<!doctype html>
+<!-- Source for public/og.png. Regenerate with: npm run og -->
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Geist:wght@400..700&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@1&display=block"
+      rel="stylesheet"
+    />
+    <style>
+      * { box-sizing: border-box; margin: 0; }
+      html, body { width: 1200px; height: 630px; overflow: hidden; }
+      body {
+        position: relative;
+        display: grid;
+        grid-template-columns: 1fr 360px;
+        gap: 64px;
+        padding: 72px 80px;
+        background: #09090b;
+        color: #ededef;
+        font-family: Geist, sans-serif;
+      }
+      body::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-image: radial-gradient(rgb(255 255 255 / 0.13) 1px, transparent 1px);
+        background-size: 22px 22px;
+        mask-image: radial-gradient(ellipse 60% 70% at 25% 40%, #000 15%, transparent 75%);
+      }
+      .copy { position: relative; display: flex; flex-direction: column; }
+      .brand { display: flex; align-items: center; gap: 14px; font: 500 22px 'Geist Mono', monospace; color: #a1a1aa; }
+      h1 { margin-top: 64px; font-size: 92px; font-weight: 650; letter-spacing: -0.055em; line-height: 0.92; }
+      h1 span { background: linear-gradient(100deg, #ededef 30%, #6b6b75); -webkit-background-clip: text; color: transparent; }
+      p { margin-top: 30px; font-size: 30px; line-height: 1.35; color: #a1a1aa; }
+      em { font-family: 'Instrument Serif', serif; font-size: 1.15em; color: #ededef; }
+      .meta { margin-top: auto; display: flex; gap: 28px; font: 500 18px 'Geist Mono', monospace; letter-spacing: 0.06em; text-transform: uppercase; color: #6b6b75; }
+      .meta b { display: inline-block; width: 10px; height: 10px; margin-right: 10px; border-radius: 50%; background: #4ade80; }
+      figure { position: relative; align-self: center; padding: 10px; border: 1px solid rgb(255 255 255 / 0.1); border-radius: 22px; background: #0f0f12; }
+      figure::before { content: ''; position: absolute; inset: 15% -12% -6%; z-index: -1; background: radial-gradient(closest-side, rgb(34 211 238 / 0.25), transparent); filter: blur(40px); }
+      img { display: block; width: 100%; aspect-ratio: 4 / 5; object-fit: cover; object-position: 50% 20%; border-radius: 16px; }
+      i { position: absolute; width: 18px; height: 18px; border: 0 solid #22d3ee; }
+      .tl { top: -1px; left: -1px; border-width: 2px 0 0 2px; border-top-left-radius: 10px; }
+      .tr { top: -1px; right: -1px; border-width: 2px 2px 0 0; border-top-right-radius: 10px; }
+      .bl { bottom: -1px; left: -1px; border-width: 0 0 2px 2px; border-bottom-left-radius: 10px; }
+      .br { bottom: -1px; right: -1px; border-width: 0 2px 2px 0; border-bottom-right-radius: 10px; }
+    </style>
+  </head>
+  <body>
+    <div class="copy">
+      <div class="brand">
+        <svg width="34" height="28" viewBox="0 0 108 88"><defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#06b6d4"/><stop offset="1" stop-color="#67e8f9"/></linearGradient></defs><path fill="url(#g)" d="M64.7 0v28.6L0 87.2V57.1zM107.7 0v28.6L43.1 87.2V57.1z"/></svg>
+        almontasser.ly
+      </div>
+      <h1>Mahmoud<br /><span>Almontasser</span></h1>
+      <p>Backend team lead. I build <em>dependable</em> backends, and the tools to build them.</p>
+      <div class="meta"><span><b></b>Open to remote roles</span><span>Misurata, Libya</span></div>
+    </div>
+    <figure>
+      <img src="../src/assets/portrait.jpeg" alt="" />
+      <i class="tl"></i><i class="tr"></i><i class="bl"></i><i class="br"></i>
+    </figure>
+  </body>
+</html>

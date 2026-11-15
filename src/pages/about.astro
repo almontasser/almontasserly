@@ -1,0 +1,199 @@
+---
+import { Image } from 'astro:assets'
+import portrait from '../assets/portrait.jpeg'
+import Icon from '../components/Icon.astro'
+import { site } from '../data/site'
+import Base from '../layouts/Base.astro'
+
+const facts = [
+  { k: 'Based in', v: `${site.location} (UTC+2)` },
+  { k: 'Role', v: `${site.role}, Lamah` },
+  { k: 'Focus', v: 'Laravel, Node.js, Linux, databases' },
+  { k: 'Off hours', v: 'Rust, compilers, dev tools' },
+  { k: 'Speaks', v: 'Arabic, English' },
+]
+---
+
+<Base title="About" description={`About ${site.name}: ${site.description}`}>
+  <section class="container about">
+    <div class="intro">
+      <p class="label">About</p>
+      <h1>Hi, I'm Mahmoud. <em class="serif">I like systems that stay up.</em></h1>
+    </div>
+
+    <div class="grid">
+      <div class="story">
+        <p class="lede">
+          I'm a backend team lead at Lamah for Information Technologies in Libya. My days are APIs,
+          databases, and the servers they run on, plus the design and review work that comes with
+          leading a team.
+        </p>
+        <p>
+          I wrote my first program at 12. For years I built desktop software in Delphi, C++, and C#,
+          then I moved to the web. Today I work mostly in PHP with Laravel and Filament, and in
+          TypeScript with Node.js and NestJS.
+        </p>
+        <p>
+          I also look after what's underneath: Linux servers, Docker, networks, and databases. My
+          GitHub bio sums it up as backend developer, network admin, DevOps admin, and database
+          admin, and I'm all four on most days.
+        </p>
+        <p>
+          In my own time I go lower. I've written <a class="link" href="https://github.com/almontasser/crust">a compiler</a>,
+          a PHP language server in Rust for my editor <a class="link" href="https://tusk.almontasser.ly">Tusk</a>,
+          and an eBPF networking stack. Building the tools is the fastest way I know to understand the
+          stack I use every day.
+        </p>
+
+        <h2>Away from the keyboard</h2>
+        <p>
+          I garden, and I'm learning hydroponic farming. I also write the occasional
+          <a class="link" href="/blog">blog post</a>, and I watch more movies and anime than I
+          should.
+        </p>
+
+        <div class="cta">
+          <a class="btn btn-primary" href={`mailto:${site.email}`}><Icon name="mail" /> Email me</a>
+          <a class="btn" href={site.links.linkedin}><Icon name="linkedin" size={16} /> LinkedIn</a>
+          <a class="btn" href={site.links.github}><Icon name="github" size={16} /> GitHub</a>
+        </div>
+      </div>
+
+      <aside>
+        <figure class="photo">
+          <Image
+            src={portrait}
+            alt="Mahmoud Almontasser outdoors in a white shirt and dark waistcoat"
+            widths={[360, 520, 720]}
+            sizes="(max-width: 860px) 90vw, 360px"
+          />
+        </figure>
+        <dl class="facts">
+          {
+            facts.map((f) => (
+              <div>
+                <dt class="label">{f.k}</dt>
+                <dd>{f.v}</dd>
+              </div>
+            ))
+          }
+          <div>
+            <dt class="label">Local time</dt>
+            <dd><span data-clock>--:--</span></dd>
+          </div>
+        </dl>
+      </aside>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .about {
+    padding-block: clamp(48px, 8vw, 96px) 120px;
+  }
+
+  h1 {
+    margin-top: 18px;
+    max-width: 16ch;
+    font-size: clamp(2.6rem, 7vw, 5.2rem);
+    letter-spacing: -0.05em;
+  }
+
+  h1 .serif {
+    color: var(--fg-muted);
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+    gap: clamp(40px, 7vw, 96px);
+    margin-top: clamp(48px, 7vw, 80px);
+    padding-top: clamp(40px, 6vw, 64px);
+    border-top: 1px solid var(--line);
+  }
+
+  .story {
+    max-width: 62ch;
+    font-size: 1.08rem;
+    line-height: 1.75;
+    color: color-mix(in srgb, var(--fg) 85%, var(--fg-muted));
+  }
+
+  .story p + p {
+    margin-top: 1.2em;
+  }
+
+  .lede {
+    font-size: 1.3rem;
+    line-height: 1.55;
+    color: var(--fg);
+  }
+
+  .story h2 {
+    margin: 2em 0 0.7em;
+    font-size: 1.6rem;
+    color: var(--fg);
+  }
+
+  .cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 48px;
+  }
+
+  aside {
+    position: sticky;
+    top: 100px;
+    align-self: start;
+  }
+
+  .photo {
+    margin: 0;
+    padding: 8px;
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    background: var(--bg-elev);
+  }
+
+  .photo img {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    object-position: 50% 18%;
+    border-radius: 14px;
+  }
+
+  .facts {
+    margin: 24px 0 0;
+  }
+
+  .facts div {
+    display: grid;
+    grid-template-columns: 110px 1fr;
+    gap: 16px;
+    padding-block: 12px;
+    border-bottom: 1px solid var(--line);
+    font-size: 0.95rem;
+  }
+
+  .facts dt {
+    padding-top: 3px;
+  }
+
+  .facts dd {
+    margin: 0;
+  }
+
+  @media (max-width: 860px) {
+    .grid {
+      grid-template-columns: 1fr;
+    }
+
+    aside {
+      position: static;
+      order: -1;
+      max-width: 420px;
+    }
+  }
+</style>

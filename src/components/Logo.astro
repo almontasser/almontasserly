@@ -1,0 +1,19 @@
+---
+// The two-stroke mark from the original site, redrawn on a clean grid.
+interface Props {
+  size?: number
+  class?: string
+}
+const { size = 26, class: className } = Astro.props
+const id = `lg${Math.random().toString(36).slice(2, 7)}`
+---
+
+<svg class={className} width={size} height={size * 0.815} viewBox="0 0 108 88" aria-hidden="true">
+  <defs>
+    <linearGradient id={id} x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#06b6d4"></stop>
+      <stop offset="1" stop-color="#67e8f9"></stop>
+    </linearGradient>
+  </defs>
+  <path fill={`url(#${id})`} d="M64.7 0v28.6L0 87.2V57.1zM107.7 0v28.6L43.1 87.2V57.1z"></path>
+</svg>

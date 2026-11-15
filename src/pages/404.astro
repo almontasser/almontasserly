@@ -1,0 +1,61 @@
+---
+import Icon from '../components/Icon.astro'
+import Base from '../layouts/Base.astro'
+---
+
+<Base title="Page not found">
+  <section class="container nf">
+    <p class="mono log">
+      <span class="accent">GET</span> <span data-path>/this-page</span> <span class="err">404 Not Found</span>
+    </p>
+    <h1>This route <em class="serif">doesn't exist.</em></h1>
+    <p class="muted">The page moved or never existed. Try the home page, or press ⌘K to search.</p>
+    <div class="cta">
+      <a class="btn btn-primary" href="/">Go home <Icon name="arrow-right" /></a>
+      <button class="btn" data-cmdk-open>Search the site</button>
+    </div>
+  </section>
+</Base>
+
+<script>
+  document.querySelector('[data-path]')!.textContent = location.pathname
+</script>
+
+<style>
+  .nf {
+    padding-block: clamp(80px, 14vw, 180px);
+  }
+
+  .log {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 10px 14px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background: var(--bg-elev);
+    font-size: 0.85rem;
+  }
+
+  .err {
+    color: #f87171;
+  }
+
+  h1 {
+    margin-top: 32px;
+    font-size: clamp(2.8rem, 8vw, 6rem);
+    letter-spacing: -0.055em;
+  }
+
+  .muted {
+    margin-top: 20px;
+    font-size: 1.1rem;
+  }
+
+  .cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 36px;
+  }
+</style>

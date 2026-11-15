@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://almontasser.ly/sitemap-index.xml
