@@ -1,4 +1,5 @@
 // Everything personal on the site lives in this file. Edit here, not in the pages.
+import hibrHome from '../assets/projects/hibr-home.webp'
 import tuskCompletion from '../assets/projects/tusk-completion.webp'
 
 export const site = {
@@ -34,6 +35,7 @@ export type Project = {
   highlights?: { value: string; label: string }[]
   image?: ImageMetadata
   imageAlt?: string
+  wide?: boolean // spans the full row of the project grid
 }
 
 export const featured: Project = {
@@ -58,6 +60,18 @@ export const featured: Project = {
 }
 
 export const projects: Project[] = [
+  {
+    name: 'Hibr',
+    tagline: 'Print-on-demand for Libya, designed in the browser',
+    description:
+      "My own print-on-demand shop. Customers design shirts, mugs, posters, and stickers in an Arabic, right-to-left browser editor with more than 500 templates, or order a design from a real designer. Hibr prints at each product's resolution, takes payment through local gateways, and delivers across Libya.",
+    year: 2026,
+    stack: ['Next.js', 'React', 'Fabric.js', 'PostgreSQL', 'Prisma'],
+    links: [{ label: 'Website', href: 'https://hibr.ly' }],
+    image: hibrHome,
+    imageAlt: "Hibr's Arabic home page, with a 3D T-shirt preview next to the headline 'From an idea to a product'",
+    wide: true,
+  },
   {
     name: 'Ersaal SMS gateway',
     org: 'Lamah',
@@ -133,6 +147,7 @@ export const experience = [
 export const milestones = [
   { year: '2026', text: 'Released Tusk, a PHP editor with its own Rust language server, in alpha.' },
   { year: '2026', text: 'Migrated the Ersaal SMS gateway live to a high-availability cluster.' },
+  { year: '2026', text: 'Started Hibr, a print-on-demand shop for Libya.' },
   { year: '2025', text: 'Published tauri-plugin-dev-invoke on crates.io and npm.' },
   { year: '2025', text: "Wrote Ersaal's SMPP sender in NestJS." },
   { year: '2023', text: 'Wrote Crust, a compiler from scratch.' },

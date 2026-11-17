@@ -121,8 +121,8 @@ const stack = [
       <p class="label">01 / Selected work</p>
       <h2>Tools I build, <em class="serif">and systems I run</em></h2>
       <p>
-        Developer tools and a compiler that I build in my own time, and Ersaal, the SMS gateway for
-        businesses in Libya whose backend I lead at Lamah.
+        Products and tools I build in my own time, from a PHP editor and a print-on-demand shop to a
+        compiler, and Ersaal, the SMS gateway for businesses in Libya whose backend I lead at Lamah.
       </p>
     </header>
 
@@ -173,7 +173,8 @@ const stack = [
     <div class="projects">
       {
         projects.map((p, i) => (
-          <article class="project card reveal">
+          <article class:list={['project card reveal', { wide: p.wide, shot: p.image }]}>
+            <div class="project-body">
             <p class="label project-meta">
               <span>{String(i + 2).padStart(2, '0')}</span>
               <span>
@@ -193,6 +194,17 @@ const stack = [
                     {l.label} <Icon name="arrow-up-right" size={14} />
                   </a>
                 ))}
+              </div>
+            )}
+            </div>
+            {p.image && (
+              <div class="featured-shot">
+                <Image
+                  src={p.image}
+                  alt={p.imageAlt ?? ''}
+                  widths={[640, 960, 1400]}
+                  sizes="(max-width: 900px) 92vw, 600px"
+                />
               </div>
             )}
           </article>
@@ -779,7 +791,8 @@ const stack = [
     transform-origin: bottom right;
   }
 
-  .featured:hover .featured-shot img {
+  .featured:hover .featured-shot img,
+  .project:hover .featured-shot img {
     transform: scale(1.02) translate(-4px, -4px);
   }
 
@@ -819,6 +832,48 @@ const stack = [
 
   .project .chips {
     margin-top: 22px;
+  }
+
+  .project.wide {
+    grid-column: 1 / -1;
+  }
+
+  .project.wide .muted {
+    max-width: 75ch;
+  }
+
+  .project-body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+  }
+
+  /* A project with a screenshot: copy on the left, the image flush with the bottom-right corner. */
+  .project.shot {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+    gap: 40px;
+    padding-right: 0;
+    padding-bottom: 0;
+  }
+
+  .project.shot .project-body {
+    padding-bottom: clamp(24px, 3vw, 32px);
+  }
+
+  @media (max-width: 900px) {
+    .project.shot {
+      grid-template-columns: 1fr;
+      padding-right: clamp(24px, 3vw, 32px);
+    }
+
+    .project.shot .project-body {
+      padding-bottom: 0;
+    }
+
+    .project.shot .featured-shot {
+      margin-right: calc(-1 * clamp(24px, 3vw, 32px));
+    }
   }
 
   .project-links {
