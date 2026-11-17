@@ -1,0 +1,147 @@
+---
+title: 'Accepting online payments in Libya: GPay, RunPay, and Moamalat'
+summary: Stripe and PayPal won't take a Libyan merchant, so my print-on-demand shop runs on local gateways. What GPay, RunPay, and Moamalat are like to integrate, and the expiry bug that set off my payment alerts.
+date: 2026-11-17
+tags:
+  - payments
+  - libya
+  - typescript
+draft: false
+---
+
+This year I started [Hibr](https://hibr.ly), a print-on-demand shop for Libya. You design a shirt, a mug, or a poster in the browser, and we print it and ship it to your city. I expected the editor to be the hard part. Getting paid turned out to be the part I knew least about.
+
+Outside Libya you'd reach for Stripe. Here you can't: Stripe and PayPal don't accept Libyan merchants. Every online shop ends up on local gateways, and their documentation ranges from thin to missing. Most of what follows I learned by testing against them, once with real money.
+
+I've dealt with three: Moamalat, GPay, and RunPay. Hibr takes GPay and RunPay today, plus plain bank transfers. All of this is as of November 2026, and things change fast here, so check before you rely on it.
+
+## Moamalat
+
+Moamalat is the national card switch that Libyan bank cards go through, so it was the obvious first choice. During development, Hibr's card payments ran against Moamalat's test terminal.
+
+I never switched it on in production. To take real payments through Moamalat, you need a properly registered company, the paperwork that comes with it, and a business bank account. I didn't have those when Hibr launched, so cards went through RunPay instead.
+
+## GPay
+
+GPay is a mobile wallet, and its Payment API only takes payments from GPay wallets. The shop creates a payment request, and the customer scans a QR code and pays in the GPay app. There's no card form. Someone with a bank card can top up their wallet first, but that's a step they have to take on their own.
+
+A few things caught me out.
+
+There are no webhooks. GPay never tells you that a request was paid. You have to keep asking.
+
+API keys are locked to IP addresses. A key only answers requests from the addresses you list on it. Everything worked from home, and then the first call from the server came back with `403 No Permission` (code `10000004`), because the server's address wasn't on the key. The fix takes a minute, but add the server before you deploy, not after.
+
+Staging isn't self-serve. GPay's staging environment has its own accounts, my normal login didn't work there, and only GPay can create one for you. I didn't want to wait, so I tested in production and paid Hibr 1 LYD from my personal wallet. The order flipped to paid about a minute after the request was created. It was the cheapest integration test I've ever run.
+
+Refunds are manual. The API can only send money to business wallets, so when a customer needs their money back, someone sends it from the business wallet in the app.
+
+### Signing
+
+Every request and every response is signed. The signature is a base64 HMAC-SHA256 keyed by your secret key. It covers a random salt, your API password, and the body fields sorted by key and joined as `k=v&k=v`. The salt and the hash go in the `X-Signature-Salt` and `X-Signature-Hash` headers. In TypeScript:
+
+```ts
+import { createHmac } from 'node:crypto'
+
+type Fields = Record<string, string | boolean | null>
+
+export function signature(
+  salt: string,
+  fields: Fields,
+  password: string,
+  secret: string,
+) {
+  const query = Object.keys(fields)
+    .sort()
+    .map((k) => `${k}=${fields[k] ?? ''}`)
+    .join('&')
+  return createHmac('sha256', secret)
+    .update(salt + password + query)
+    .digest('base64')
+}
+```
+
+Check the response signature too, and compare in constant time (`timingSafeEqual` in Node). Each endpoint's docs list which response fields are signed. Verify against the values GPay sends back, not the ones you sent: after my test payment, GPay had rewritten the request's description on its side.
+
+GPay publishes an [official Node SDK](https://github.com/Libya-Guide/GPay-Nodejs-SDK). I wrote my own client, but I ran my signing code and theirs on the same inputs, and the output matched byte for byte before any money moved.
+
+### Polling instead of webhooks
+
+A payment request stays payable for 30 minutes. Hibr creates one when the customer clicks pay, and saves it before the QR code appears. Then it keeps checking: when the customer comes back to the pay page, every hour in a background job, and whenever someone on the team clicks **Check payment** in the admin.
+
+It checks every request on the order, not only the latest. People leave a QR code open on their phone, wander off, and come back to pay that one.
+
+### The expiry bug
+
+A few hours after GPay went live, an alert landed in my inbox: the hourly payment check had failed. Left alone, it would have failed again every hour.
+
+A customer had opened a GPay request and never paid it. Once an unpaid request passes its 30 minutes, GPay's status check doesn't say "unpaid" or "expired". It refuses the request outright with `Wrong request` (code `10000003`). A paid request doesn't get refused: my 1 LYD test request still answered normally hours later, while the abandoned one was refused at 81 minutes old.
+
+My code treated that refusal as an error, and that hurt in three ways. The hourly job kept alerting. The order never got its payment reminder or its automatic cancellation, so it just sat there. And the worst one only showed up once I read the code closely: the check started at the newest request and stopped at the first error. If a customer paid one request, then opened a second and walked away, the paid one would never be found.
+
+The fix was small. A `10000003` on a request older than 30 minutes now means "not paid", and the check moves on to the next request. The same error on a fresh request still raises an alert, because then something else is wrong.
+
+```ts
+try {
+  return await call('/payment/check-payment-status', {
+    request_id: requestId,
+  })
+} catch (e) {
+  // Refused before its 30 minutes are up: something else is wrong.
+  const expired = Date.now() - createdAt.getTime() > 30 * 60_000
+  const code = (e as { code?: unknown }).code
+  if (code === 10000003 && expired) return null // not paid
+  throw e
+}
+```
+
+## RunPay
+
+RunPay sells its merchant gateway as PayMaster Libya. It's a REST API with a bearer token, and the customer pays on RunPay's hosted page, so card numbers never touch my server. My account lives on `psp.paymaster.ly`, but the docs link I was first sent pointed at the Tunisian host, `psp.paymaster.tn`. Check which one your account is on.
+
+Getting the account asked for less than Moamalat did. I registered Hibr as an online store on LTNET's registration site, [osr.ltnet.gov.ly](https://osr.ltnet.gov.ly), paid a 150 LYD fee, and got an e-store activity permit (<bdi lang="ar">إذن مزاولة نشاط متجر إلكتروني</bdi>). With that permit, I could open a RunPay account.
+
+The hosted page offers more than I expected. On my account it's not only cards: there are local bank cards plus wallets such as SADAD, Edfali, and MobiCash, which you switch on in RunPay's portal. One integration gave Hibr cards and several wallets at once.
+
+### How a payment flows
+
+Hibr creates an invoice with `POST /api/v2/invoices`, sending the order number, the amount, a return URL, and a callback URL. RunPay answers with a payment ID and a link to its payment page. Hibr saves the payment ID straight away, because there's no way to look a payment up by order number later. Then it sends the customer off to pay.
+
+After that, two things happen, in either order, and either one might not happen at all: RunPay posts to the callback URL, and the customer comes back to the return URL.
+
+### Don't trust the callback
+
+The callback isn't signed, and the return URL comes back with no payment ID and no status. Anyone who finds your callback URL can post a fake "Settled" to it.
+
+So Hibr only takes the payment ID from the callback, and then asks RunPay for the payment itself with `GET /api/v2/payments/{id}`. It marks the order paid only when the status is `Settled` and the merchant ID, the test-mode flag, the order number, the currency, and the amount all match. The return page and the callback can land at the same moment, so marking an order paid has to be safe to run twice.
+
+Creating a second invoice for the same order doesn't cancel the first. A customer who comes back before the payment settles might click pay again, and then two invoices are payable. Check all of them.
+
+### What test mode taught me
+
+I've only run RunPay in test mode so far: one full payment and one partial refund. Treat this section as what I saw there.
+
+There's no separate sandbox. Test mode is a flag you set on each invoice, and it works while your account is still waiting for approval. The test card is `4100 0000 0000 0001`, with any future expiry date and any CVV, and the payment settled immediately.
+
+After paying, the page doesn't send the customer back to your shop. It says "Payment is successful" and waits for them to click **Return back to store**. Plenty of people will just close the tab, so the callback and the hourly check aren't optional.
+
+The partial refund went through in seconds. Refunds don't trigger a callback, so you poll for the result. RunPay also accepted `localhost` as a return URL, which made the return path easy to test, though the callback can't reach your laptop.
+
+Never run production in test mode. The test card is public, and the test-mode check during verification is the only thing that stops a stranger from paying for a real order with it.
+
+### Fees
+
+RunPay takes 2.5% of each transaction. Get your rate in writing before you sign anything.
+
+## Keep money in dirham
+
+The Libyan dinar has three decimal places: one dinar is 1,000 dirham. Hibr stores every amount as an integer number of dirham and only converts at the edges. GPay wants a string like `"120.000"`, and RunPay sends values back padded to four places, like `10.5000`. Keep floats out of your totals, and you'll never chase a rounding error at checkout.
+
+## If I started again
+
+- Assume there are no webhooks. Write one function that checks an order's payment, and call it from everywhere: the return page, the callback, a scheduled job, and an admin button.
+- Save every payment request or invoice ID before you send the customer to pay.
+- Treat callbacks as hints. Fetch the payment yourself and check every field.
+- Find out what an expired request looks like. It might not say "expired".
+- Check every payment attempt on an order, not only the last one.
+- Add your server's IP address to your API keys before you deploy.
+- Get fees and settlement terms in writing.
