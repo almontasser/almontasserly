@@ -114,7 +114,10 @@ const { title, summary, date, updated, tags } = post.data
     background: linear-gradient(90deg, var(--accent), var(--accent-2));
     transform-origin: 0 50%;
     transform: scaleX(0);
-    animation: progress linear both;
+    /* Longhands on purpose, like .nav in Base.astro. */
+    animation-name: progress;
+    animation-timing-function: linear;
+    animation-fill-mode: both;
     animation-timeline: scroll(root);
   }
 

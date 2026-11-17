@@ -272,7 +272,10 @@ const article = published && {
     top: 0;
     z-index: 50;
     border-bottom: 1px solid var(--line);
-    animation: nav-solid linear both;
+    /* Longhands on purpose: the CSS minifier folds the animation shorthand and animation-timeline into one shorthand, which browsers reject. */
+    animation-name: nav-solid;
+    animation-timing-function: linear;
+    animation-fill-mode: both;
     animation-timeline: scroll();
     animation-range: 0 80px;
   }

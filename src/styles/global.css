@@ -407,7 +407,10 @@ button {
 
   @supports (animation-timeline: view()) {
     .reveal {
-      animation: reveal linear both;
+      /* Longhands on purpose, like .nav in Base.astro. */
+      animation-name: reveal;
+      animation-timing-function: linear;
+      animation-fill-mode: both;
       animation-timeline: view();
       animation-range: entry 0% entry 35%;
     }
