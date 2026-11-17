@@ -1,5 +1,5 @@
 // Everything personal on the site lives in this file. Edit here, not in the pages.
-import tuskDesigner from '../assets/projects/tusk-designer.webp'
+import tuskCompletion from '../assets/projects/tusk-completion.webp'
 
 export const site = {
   name: 'Mahmoud Almontasser',
@@ -53,8 +53,8 @@ export const featured: Project = {
     { value: '3 ms', label: 'of work per keystroke, even in a 4,800-line file' },
     { value: 'Local', label: 'AI completion: Qwen2.5-Coder runs on your own GPU' },
   ],
-  image: tuskDesigner,
-  imageAlt: 'Tusk editing a Filament product resource in its visual form designer',
+  image: tuskCompletion,
+  imageAlt: "Tusk completing a Filament form field with the Post model's columns and relationships",
 }
 
 export const projects: Project[] = [
