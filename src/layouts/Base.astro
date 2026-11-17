@@ -3,7 +3,6 @@ import '../styles/global.css'
 import { Font } from 'astro:assets'
 import CommandPalette from '../components/CommandPalette.astro'
 import Icon from '../components/Icon.astro'
-import Logo from '../components/Logo.astro'
 import { site } from '../data/site'
 
 interface Props {
@@ -86,7 +85,6 @@ const person = {
     <header class="nav">
       <div class="container nav-inner">
         <a href="/" class="brand" aria-label={`${site.name}, home`}>
-          <Logo size={24} />
           <span class="mono">almontasser</span>
         </a>
 
@@ -133,7 +131,6 @@ const person = {
         <div class="container">
           <div class="footer-top">
             <div class="footer-id">
-              <Logo size={30} />
               <p>
                 <strong>{site.name}</strong><br />
                 <span class="muted">{site.role} · {site.location}</span>
@@ -393,10 +390,6 @@ const person = {
     gap: 16px;
     align-items: flex-start;
     line-height: 1.5;
-  }
-
-  .footer-id :global(svg) {
-    margin-top: 4px;
   }
 
   .footer-cols {
