@@ -16,6 +16,7 @@ export const site = {
   availability: 'Open to remote roles',
   githubUser: 'almontasser',
   githubSince: 2016,
+  lamahSince: 2021,
   links: {
     github: 'https://github.com/almontasser',
     linkedin: 'https://www.linkedin.com/in/m-almuntasir',
@@ -117,29 +118,40 @@ export const projects: Project[] = [
   },
 ]
 
-// TODO(Mahmoud): add start years, and any earlier employers.
 export const experience = [
   {
     role: 'Backend Team Leader',
     org: 'Lamah for Information Technologies',
-    period: 'Now',
+    period: '2023–now',
     points: [
       'Lead the backend team: system design, code review, and delivery.',
       "Lead the backend of Ersaal, Lamah's SMS gateway, and wrote the SMPP sender that delivers its messages to the Libyana and Madar networks.",
       'Migrated Ersaal production live to a three-node high-availability cluster, provisioned with Ansible and deployed with Kamal.',
-      'Run the infrastructure under our services: Linux, Docker, databases, and networking.',
+      'Standardized containerized deployment and CI/CD with Docker and GitHub Actions.',
     ],
   },
   {
-    role: 'Software Developer',
+    role: 'Network and Servers Administrator',
     org: 'Lamah for Information Technologies',
-    period: 'Before',
-    points: ['Built web backends with Nest.js and Laravel, and moved into leading the team.'],
+    period: '2021–now',
+    points: [
+      'Run the Linux servers, networks, DNS, TLS, and backups under our production services.',
+      'Debug reliability and connectivity issues with logs, packet captures, and Docker diagnostics, including VPN links to SMS carriers.',
+    ],
+  },
+  {
+    role: 'Backend Developer',
+    org: 'Lamah for Information Technologies',
+    period: '2021–2023',
+    points: [
+      'Built REST APIs and backend modules for reservations, archiving, SMS, and café management systems in Laravel and Node.js.',
+      'Designed schemas and tuned queries on PostgreSQL, MySQL, and SQLite.',
+    ],
   },
   {
     role: 'Desktop software developer',
     org: 'Independent',
-    period: 'Earlier',
+    period: 'Before 2021',
     points: ['Wrote Windows software in Delphi, C++, and C# before moving to the web.'],
   },
 ]
@@ -150,7 +162,10 @@ export const milestones = [
   { year: '2026', text: 'Started Hibr, a print-on-demand shop for Libya.' },
   { year: '2025', text: 'Published tauri-plugin-dev-invoke on crates.io and npm.' },
   { year: '2025', text: "Wrote Ersaal's SMPP sender in NestJS." },
+  { year: '2023', text: 'Became backend team leader at Lamah.' },
   { year: '2023', text: 'Wrote Crust, a compiler from scratch.' },
+  { year: '2023', text: 'Graduated with a B.Sc. in Information Technology.' },
+  { year: '2021', text: 'Joined Lamah as a backend developer.' },
   { year: '2016', text: 'Started publishing code on GitHub.' },
   { year: 'Age 12', text: 'Wrote my first program.' },
 ]

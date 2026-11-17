@@ -20,7 +20,14 @@ const { Content } = await render(post)
 const { title, summary, date, updated, tags } = post.data
 ---
 
-<Base title={title} description={summary} type="article" published={date}>
+<Base
+  title={title}
+  description={summary}
+  type="article"
+  published={date}
+  updated={updated}
+  image={`/og/${post.id}.png`}
+>
   <div class="progress" aria-hidden="true"></div>
 
   <article class="container post">

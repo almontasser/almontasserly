@@ -1,11 +1,14 @@
 // @ts-check
 import mdx from '@astrojs/mdx'
 import sitemap from '@astrojs/sitemap'
+import vercel from '@astrojs/vercel'
 import { defineConfig, fontProviders } from 'astro/config'
 
 export default defineConfig({
   site: 'https://almontasser.ly',
   integrations: [mdx(), sitemap()],
+  // The homepage is rendered on demand and cached for a day, so its GitHub stats stay fresh without rebuilds.
+  adapter: vercel({ isr: { expiration: 60 * 60 * 24 } }),
   redirects: {
     '/projects': '/#work',
   },

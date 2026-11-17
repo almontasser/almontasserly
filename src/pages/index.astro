@@ -1,4 +1,6 @@
 ---
+export const prerender = false // see the adapter's ISR setting in astro.config.mjs
+
 import { Image } from 'astro:assets'
 import portrait from '../assets/portrait.jpeg'
 import Heatmap from '../components/Heatmap.astro'
@@ -17,8 +19,8 @@ const stars = (repo?: string) => (repo && gh.stars[repo] >= 20 ? gh.stars[repo] 
 const stats = [
   gh.total !== null && { value: num.format(gh.total), label: 'GitHub contributions in the last year' },
   { value: `${new Date().getFullYear() - site.githubSince} yrs`, label: `Shipping code in public, since ${site.githubSince}` },
-  { value: '~1 s', label: 'For Tusk to index a 23,000-file Laravel app' },
-  { value: '3 ms', label: 'Of work per keystroke in Tusk, even in a 4,800-line file' },
+  { value: `${new Date().getFullYear() - site.lamahSince} yrs`, label: 'Building and running production backends at Lamah' },
+  { value: '3 nodes', label: 'In the high-availability cluster I moved Ersaal onto, live' },
 ].filter(Boolean) as { value: string; label: string }[]
 
 const stack = [
