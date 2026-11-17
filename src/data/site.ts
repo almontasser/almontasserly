@@ -24,10 +24,11 @@ export const site = {
 
 export type Project = {
   name: string
+  org?: string // set for work done for an employer
   repo?: string // owner/name, used for live star counts
   tagline: string
   description: string
-  year: number
+  year: number | string
   stack: string[]
   links: { label: string; href: string }[]
   highlights?: { value: string; label: string }[]
@@ -58,6 +59,26 @@ export const featured: Project = {
 
 export const projects: Project[] = [
   {
+    name: 'Ersaal SMS gateway',
+    org: 'Lamah',
+    tagline: 'An SMS platform for businesses and developers in Libya',
+    description:
+      'Ersaal sends business SMS over the Libyana and Madar networks, through a dashboard and an API. I lead its backend, and I migrated production live from single-instance servers to a three-node high-availability cluster: Patroni PostgreSQL, Valkey with Sentinel, and HAProxy on every node.',
+    year: '2024–now',
+    stack: ['Laravel', 'Filament', 'PostgreSQL', 'Patroni', 'Valkey', 'Ansible', 'Kamal'],
+    links: [{ label: 'Website', href: 'https://www.getersaal.com' }],
+  },
+  {
+    name: 'Ersaal SMPP sender',
+    org: 'Lamah',
+    tagline: 'The service that hands every message to the carriers',
+    description:
+      "A NestJS service I wrote to speak SMPP to the carriers' message centers. It keeps a pool of bound sessions for each carrier, submits each batch through a window of in-flight requests, backs off when a carrier throttles, and stores every delivery report before it acknowledges it.",
+    year: '2025–now',
+    stack: ['TypeScript', 'NestJS', 'SMPP', 'PostgreSQL'],
+    links: [],
+  },
+  {
     name: 'Crust',
     repo: 'almontasser/crust',
     tagline: 'A compiler for a C-like language with Rust syntax',
@@ -80,26 +101,6 @@ export const projects: Project[] = [
       { label: 'crates.io', href: 'https://crates.io/crates/tauri-plugin-dev-invoke' },
     ],
   },
-  {
-    name: 'UDCN',
-    repo: 'almontasser/udcn3',
-    tagline: 'Named Data Networking with eBPF acceleration',
-    description:
-      'A content-centric networking stack. An XDP program handles packets in the kernel, a daemon forwards and routes, a CLI transfers files between nodes, and a bench tool simulates topologies.',
-    year: 2025,
-    stack: ['Rust', 'eBPF / XDP', 'Networking'],
-    links: [{ label: 'Source', href: 'https://github.com/almontasser/udcn3' }],
-  },
-  {
-    name: 'mmWave beam alignment',
-    repo: 'almontasser/ba-sionna',
-    tagline: 'A deep learning paper, reimplemented',
-    description:
-      'A TensorFlow implementation of adaptive joint mmWave beam alignment on 3GPP TR 38.901 channel models. The base station learns a beam codebook while the device adapts with a recurrent network.',
-    year: 2025,
-    stack: ['Python', 'TensorFlow', 'Sionna'],
-    links: [{ label: 'Source', href: 'https://github.com/almontasser/ba-sionna' }],
-  },
 ]
 
 // TODO(Mahmoud): add start years, and any earlier employers.
@@ -110,6 +111,8 @@ export const experience = [
     period: 'Now',
     points: [
       'Lead the backend team: system design, code review, and delivery.',
+      "Lead the backend of Ersaal, Lamah's SMS gateway, and wrote the SMPP sender that delivers its messages to the Libyana and Madar networks.",
+      'Migrated Ersaal production live to a three-node high-availability cluster, provisioned with Ansible and deployed with Kamal.',
       'Run the infrastructure under our services: Linux, Docker, databases, and networking.',
     ],
   },
@@ -129,8 +132,9 @@ export const experience = [
 
 export const milestones = [
   { year: '2026', text: 'Released Tusk, a PHP editor with its own Rust language server, in alpha.' },
+  { year: '2026', text: 'Migrated the Ersaal SMS gateway live to a high-availability cluster.' },
   { year: '2025', text: 'Published tauri-plugin-dev-invoke on crates.io and npm.' },
-  { year: '2025', text: 'Built UDCN, an eBPF-accelerated Named Data Networking stack.' },
+  { year: '2025', text: "Wrote Ersaal's SMPP sender in NestJS." },
   { year: '2023', text: 'Wrote Crust, a compiler from scratch.' },
   { year: '2016', text: 'Started publishing code on GitHub.' },
   { year: 'Age 12', text: 'Wrote my first program.' },
@@ -145,16 +149,16 @@ export const toolbox = [
   {
     title: 'Infrastructure',
     note: 'The servers, networks, and pipelines that keep it running.',
-    items: ['Linux', 'Docker', 'Terraform', 'Hetzner Cloud', 'Networking', 'GitHub Actions'],
+    items: ['Linux', 'Docker', 'Ansible', 'Kamal', 'HAProxy', 'Terraform', 'Hetzner Cloud', 'Networking', 'GitHub Actions'],
   },
   {
     title: 'Data',
-    note: 'Schema design, query tuning, and database administration.',
-    items: ['PostgreSQL', 'MySQL', 'SQLite'],
+    note: 'Schema design, query tuning, replication, and database administration.',
+    items: ['PostgreSQL', 'Patroni', 'Valkey', 'MySQL', 'SQLite'],
   },
   {
     title: 'Systems',
-    note: 'Compilers, language servers, and kernel-level networking.',
+    note: 'Compilers, language servers, and low-level tooling.',
     items: ['Rust', 'C', 'Go', 'Odin', 'eBPF'],
   },
   {

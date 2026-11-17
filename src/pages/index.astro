@@ -119,10 +119,10 @@ const stack = [
   <section id="work" class="section container">
     <header class="section-head reveal">
       <p class="label">01 / Selected work</p>
-      <h2>Things I've built <em class="serif">for the joy of it</em></h2>
+      <h2>Tools I build, <em class="serif">and systems I run</em></h2>
       <p>
-        Side projects that show how I think: developer tools, a compiler, and networking at the
-        kernel level. Most of my professional work is private, so ask me about it.
+        Developer tools and a compiler that I build in my own time, and Ersaal, the SMS gateway for
+        businesses in Libya whose backend I lead at Lamah.
       </p>
     </header>
 
@@ -177,6 +177,7 @@ const stack = [
             <p class="label project-meta">
               <span>{String(i + 2).padStart(2, '0')}</span>
               <span>
+                {p.org && `${p.org} · `}
                 {p.year}
                 {stars(p.repo) ? ` · ★ ${stars(p.repo)}` : ''}
               </span>
@@ -185,13 +186,15 @@ const stack = [
             <p class="tagline">{p.tagline}</p>
             <p class="muted">{p.description}</p>
             <ul class="chips">{p.stack.map((s) => <li class="chip">{s}</li>)}</ul>
-            <div class="project-links">
-              {p.links.map((l) => (
-                <a class="link" href={l.href}>
-                  {l.label} <Icon name="arrow-up-right" size={14} />
-                </a>
-              ))}
-            </div>
+            {p.links.length > 0 && (
+              <div class="project-links">
+                {p.links.map((l) => (
+                  <a class="link" href={l.href}>
+                    {l.label} <Icon name="arrow-up-right" size={14} />
+                  </a>
+                ))}
+              </div>
+            )}
           </article>
         ))
       }
@@ -500,17 +503,6 @@ const stack = [
     object-fit: cover;
     object-position: 50% 20%;
     border-radius: var(--radius);
-    transition: filter 0.8s var(--ease);
-  }
-
-  @media (hover: hover) {
-    .portrait img {
-      filter: grayscale(0.85) contrast(1.05);
-    }
-
-    .portrait:hover img {
-      filter: none;
-    }
   }
 
   .cm {
