@@ -45,7 +45,7 @@ const { title, summary, date, updated, tags } = post.data
         <div>
           <p><strong>{site.name}</strong></p>
           <p class="muted">
-            {site.role} in {site.location}. Questions or a correction?
+            {site.role} in {site.location}. Questions or a correction?{' '}
             <a class="link" href={`mailto:${site.email}?subject=${encodeURIComponent(title)}`}>Email me</a>.
           </p>
         </div>
