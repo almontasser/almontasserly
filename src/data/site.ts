@@ -202,3 +202,61 @@ export const toolbox = [
     items: ['Delphi', 'C++', 'C#'],
   },
 ]
+
+// Merged pull requests to other people's projects. Curated by hand: GitHub search also returns coursework and work repos.
+export const contributions = [
+  { repo: 'laravel/installer', title: 'Fix laravel new when Valet has no paths configured', href: 'https://github.com/laravel/installer/pull/388', year: 2025 },
+  { repo: 'oraios/serena', title: 'Add the rust-analyzer runtime dependency for Linux on Arm64', href: 'https://github.com/oraios/serena/pull/292', year: 2025 },
+  { repo: 'open-pencil/open-pencil', title: 'Add Arabic and right-to-left support', href: 'https://github.com/open-pencil/open-pencil/pull/162', year: 2026 },
+  { repo: 'stadiamaps/ferrostar', title: 'Fix how distance_along initializes the traversed distance', href: 'https://github.com/stadiamaps/ferrostar/pull/353', year: 2024 },
+  { repo: 'Papooch/nestjs-cls', title: 'Support NestJS 9', href: 'https://github.com/Papooch/nestjs-cls/pull/39', year: 2022 },
+  { repo: 'thedevdojo/wave', title: "Check the id column's type before fixing PostgreSQL sequences", href: 'https://github.com/thedevdojo/wave/pull/157', year: 2024 },
+  { repo: 'statikbe/laravel-filament-chained-translation-manager', title: 'Stop clicks on a translation from submitting the form', href: 'https://github.com/statikbe/laravel-filament-chained-translation-manager/pull/22', year: 2023 },
+  { repo: 'blomqma/next-rest-framework', title: 'Fix path finding on Windows and add path parameters to the OpenAPI spec', href: 'https://github.com/blomqma/next-rest-framework/pull/41', year: 2023 },
+]
+
+export const education = [{ degree: 'B.Sc. in Information Technology', year: 2023 }]
+
+// The /now page. Update the date whenever you change the list.
+export const now = {
+  updated: '2026-11-17',
+  items: [
+    { title: 'Tusk', text: 'Building my PHP editor for Laravel, now in alpha.' },
+    { title: 'Hibr', text: 'Running my print-on-demand shop for Libya.' },
+    { title: 'Ersaal', text: 'Leading the backend at Lamah, now on the high-availability cluster I moved production to this year.' },
+    { title: 'Looking', text: 'Open to remote backend engineering and team-lead roles.' },
+  ],
+}
+
+// The /uses page. A section with no items is hidden, so fill in "Desk" when you're ready.
+export const uses = [
+  {
+    title: 'Editors and agents',
+    items: [
+      { name: 'Tusk', note: 'The PHP editor I build, with a Rust language server and local AI completion.' },
+      { name: 'VS Code', note: 'For everything that is not PHP.' },
+      { name: 'Claude Code and Codex', note: 'AI coding agents I work alongside.' },
+    ],
+  },
+  {
+    title: 'Servers and deploys',
+    items: [
+      { name: 'Hetzner Cloud', note: 'Cloud servers.' },
+      { name: 'Ansible', note: 'Provisions the Ersaal cluster.' },
+      { name: 'Kamal', note: 'Deploys Ersaal as Docker containers.' },
+      { name: 'GitHub Actions', note: 'CI and deploy pipelines.' },
+      { name: 'HAProxy', note: 'Runs on every node of the Ersaal cluster.' },
+    ],
+  },
+  {
+    title: 'Data',
+    items: [
+      { name: 'PostgreSQL with Patroni', note: 'The highly available database under Ersaal.' },
+      { name: 'Valkey with Sentinel', note: 'Highly available Valkey for Ersaal.' },
+    ],
+  },
+  {
+    title: 'Desk',
+    items: [] as { name: string; note: string }[],
+  },
+]

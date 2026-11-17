@@ -1,9 +1,10 @@
 ---
-import { site } from '../data/site'
-import { getPosts } from '../lib/posts'
+import { featured, site } from '../data/site'
+import { getCaseStudies, getPosts } from '../lib/posts'
 import Icon from './Icon.astro'
 
 const posts = await getPosts()
+const studies = await getCaseStudies()
 
 const groups = [
   {
@@ -14,12 +15,19 @@ const groups = [
       { label: 'Experience', href: '/#experience', icon: 'hash' },
       { label: 'Writing', href: '/blog', icon: 'file' },
       { label: 'About', href: '/about', icon: 'user' },
+      { label: 'Now', href: '/now', icon: 'hash' },
+      { label: 'Uses', href: '/uses', icon: 'hash' },
+      { label: 'Résumé (CV)', href: '/cv', icon: 'file' },
       { label: 'Contact', href: '/#contact', icon: 'mail' },
     ],
   },
   {
     name: 'Writing',
     items: posts.map((p) => ({ label: p.data.title, href: `/blog/${p.id}`, icon: 'file' })),
+  },
+  {
+    name: 'Case studies',
+    items: studies.map((s) => ({ label: s.data.title, href: `/work/${s.id}`, icon: 'file' })),
   },
   {
     name: 'Actions',
@@ -31,13 +39,14 @@ const groups = [
   {
     name: 'Elsewhere',
     items: [
+      { label: `${featured.name} website`, href: featured.links[0].href, icon: 'arrow-up-right' },
       { label: 'GitHub', href: site.links.github, icon: 'github' },
       { label: 'LinkedIn', href: site.links.linkedin, icon: 'linkedin' },
       { label: 'X', href: site.links.x, icon: 'x' },
       { label: 'RSS feed', href: '/rss.xml', icon: 'rss' },
     ],
   },
-] as { name: string; items: { label: string; href?: string; action?: string; icon: string }[] }[]
+].filter((g) => g.items.length > 0) as { name: string; items: { label: string; href?: string; action?: string; icon: string }[] }[]
 ---
 
 <dialog id="cmdk" class="cmdk" aria-label="Command menu">

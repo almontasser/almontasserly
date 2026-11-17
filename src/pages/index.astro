@@ -5,13 +5,15 @@ import { Image } from 'astro:assets'
 import portrait from '../assets/portrait.jpeg'
 import Heatmap from '../components/Heatmap.astro'
 import Icon from '../components/Icon.astro'
-import { experience, featured, milestones, projects, site, toolbox } from '../data/site'
+import { contributions, experience, featured, milestones, projects, site, toolbox } from '../data/site'
 import Base from '../layouts/Base.astro'
 import { getGitHub } from '../lib/github'
-import { formatDate, getPosts, readingTime } from '../lib/posts'
+import { formatDate, getCaseStudies, getPosts, readingTime } from '../lib/posts'
 
 const gh = await getGitHub()
 const posts = (await getPosts()).slice(0, 4)
+const studies = await getCaseStudies()
+const studyFor = (name: string) => studies.find((s) => s.data.project === name)
 const num = new Intl.NumberFormat('en-US')
 // Only show star counts once they say something.
 const stars = (repo?: string) => (repo && gh.stars[repo] >= 20 ? gh.stars[repo] : undefined)
@@ -43,6 +45,7 @@ const stack = [
           )
         }
         <span class="mono muted">{site.role} · {site.location}</span>
+        <span class="mono muted"><span data-clock>--:--</span> there · <span data-status>local time</span></span>
       </p>
 
       <h1 class="hero-name anim">
@@ -189,8 +192,13 @@ const stack = [
             <p class="tagline">{p.tagline}</p>
             <p class="muted">{p.description}</p>
             <ul class="chips">{p.stack.map((s) => <li class="chip">{s}</li>)}</ul>
-            {p.links.length > 0 && (
+            {(p.links.length > 0 || studyFor(p.name)) && (
               <div class="project-links">
+                {studyFor(p.name) && (
+                  <a class="link" href={`/work/${studyFor(p.name)!.id}`}>
+                    Case study <Icon name="arrow-right" size={14} />
+                  </a>
+                )}
                 {p.links.map((l) => (
                   <a class="link" href={l.href}>
                     {l.label} <Icon name="arrow-up-right" size={14} />
@@ -212,6 +220,23 @@ const stack = [
           </article>
         ))
       }
+    </div>
+
+    <div class="upstream reveal">
+      <p class="label">Merged upstream</p>
+      <ul>
+        {
+          contributions.map((c) => (
+            <li>
+              <a href={c.href}>
+                <span class="mono up-repo">{c.repo}</span>
+                <span class="up-title">{c.title}</span>
+                <span class="mono muted">{c.year}</span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
     </div>
 
     <p class="more reveal">
@@ -897,6 +922,55 @@ const stack = [
   @media (max-width: 760px) {
     .projects {
       grid-template-columns: 1fr;
+    }
+  }
+
+  .upstream {
+    margin-top: 48px;
+  }
+
+  .upstream ul {
+    margin: 14px 0 0;
+    padding: 0;
+    list-style: none;
+    border-top: 1px solid var(--line);
+  }
+
+  .upstream a {
+    display: grid;
+    grid-template-columns: minmax(0, 15rem) 1fr auto;
+    gap: 20px;
+    align-items: baseline;
+    padding: 14px 4px;
+    border-bottom: 1px solid var(--line);
+    transition: background 0.2s;
+  }
+
+  .upstream a:hover {
+    background: var(--bg-elev);
+  }
+
+  .up-repo {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 0.8rem;
+    color: var(--accent);
+  }
+
+  .upstream .mono.muted {
+    font-size: 0.8rem;
+  }
+
+  @media (max-width: 640px) {
+    .upstream a {
+      grid-template-columns: 1fr auto;
+      gap: 4px 16px;
+    }
+
+    .up-title {
+      grid-column: 1 / -1;
+      grid-row: 2;
     }
   }
 

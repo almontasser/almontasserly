@@ -458,3 +458,170 @@ button {
 [data-theme='dark'] .astro-code span {
   color: var(--shiki-dark);
 }
+
+/* ---------- Article prose (posts and case studies) ---------- */
+.prose {
+  font-size: 1.075rem;
+  line-height: 1.75;
+  color: color-mix(in srgb, var(--fg) 88%, var(--fg-muted));
+}
+
+.prose > * + * {
+  margin-top: 1.25em;
+}
+
+.prose h2,
+.prose h3 {
+  margin-top: 2.2em;
+  color: var(--fg);
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+}
+
+.prose h2 {
+  font-size: 1.7rem;
+}
+
+.prose h3 {
+  font-size: 1.3rem;
+}
+
+.prose h2 + *,
+.prose h3 + * {
+  margin-top: 0.75em;
+}
+
+.prose a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+
+.prose strong {
+  color: var(--fg);
+  font-weight: 600;
+}
+
+.prose ul,
+.prose ol {
+  padding-left: 1.4em;
+}
+
+.prose li + li {
+  margin-top: 0.4em;
+}
+
+.prose li::marker {
+  color: var(--fg-subtle);
+}
+
+.prose :not(pre) > code {
+  padding: 0.15em 0.4em;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--surface);
+  font: 0.86em var(--font-mono);
+  color: var(--fg);
+}
+
+.prose blockquote {
+  margin-inline: 0;
+  padding-left: 1.2em;
+  border-left: 2px solid var(--accent);
+  color: var(--fg-muted);
+}
+
+.prose hr {
+  border: 0;
+  border-top: 1px solid var(--line);
+}
+
+.prose img {
+  border-radius: 12px;
+  border: 1px solid var(--line);
+}
+
+.code-wrap {
+  position: relative;
+}
+
+.prose pre {
+  margin: 0;
+  padding: 20px 22px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  overflow-x: auto;
+  font: 0.86rem/1.7 var(--font-mono);
+  tab-size: 4;
+}
+
+.copy-code {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  height: 28px;
+  padding-inline: 10px;
+  border: 1px solid var(--line-strong);
+  border-radius: 8px;
+  background: var(--bg-elev);
+  font-size: 0.72rem;
+  color: var(--fg-muted);
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.code-wrap:hover .copy-code,
+.copy-code:focus-visible {
+  opacity: 1;
+}
+
+@media (hover: none) {
+  .copy-code {
+    opacity: 1;
+  }
+}
+
+/* ---------- Print ---------- */
+@media print {
+  :root,
+  [data-theme] {
+    --bg: #fff;
+    --bg-elev: #fff;
+    --surface: #f2f2f2;
+    --line: #ddd;
+    --line-strong: #ccc;
+    --fg: #000;
+    --fg-muted: #333;
+    --fg-subtle: #555;
+    --accent: #0e7490;
+    color-scheme: light;
+  }
+
+  @page {
+    margin: 14mm 16mm;
+  }
+
+  html {
+    font-size: 13px;
+  }
+
+  .nav,
+  .footer,
+  .skip,
+  .cmdk,
+  .no-print {
+    display: none !important;
+  }
+
+  .frame {
+    border: 0;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}

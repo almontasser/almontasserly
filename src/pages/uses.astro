@@ -1,0 +1,76 @@
+---
+import { site, uses } from '../data/site'
+import Base from '../layouts/Base.astro'
+
+const sections = uses.filter((s) => s.items.length > 0)
+---
+
+<Base title="Uses" description={`The editor, servers, and tools ${site.name} uses every day.`}>
+  <section class="container page">
+    <header class="section-head">
+      <p class="label">Uses</p>
+      <h1>What I <em class="serif">work with</em></h1>
+      <p>The editor I write code in, and the tools that build, ship, and run it.</p>
+    </header>
+
+    {
+      sections.map((s) => (
+        <section class="group">
+          <h2 class="label">{s.title}</h2>
+          <dl>
+            {s.items.map((i) => (
+              <div>
+                <dt>{i.name}</dt>
+                <dd class="muted">{i.note}</dd>
+              </div>
+            ))}
+          </dl>
+        </section>
+      ))
+    }
+  </section>
+</Base>
+
+<style>
+  .page {
+    max-width: calc(820px + 2 * var(--gutter));
+    padding-block: clamp(48px, 8vw, 96px) 120px;
+  }
+
+  h1 {
+    font-size: clamp(2.6rem, 7vw, 5rem);
+    letter-spacing: -0.05em;
+  }
+
+  .group + .group {
+    margin-top: 48px;
+  }
+
+  dl {
+    margin: 14px 0 0;
+    border-top: 1px solid var(--line);
+  }
+
+  dl div {
+    display: grid;
+    grid-template-columns: 14rem 1fr;
+    gap: 24px;
+    padding-block: 16px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  dt {
+    font-weight: 600;
+  }
+
+  dd {
+    margin: 0;
+  }
+
+  @media (max-width: 560px) {
+    dl div {
+      grid-template-columns: 1fr;
+      gap: 4px;
+    }
+  }
+</style>

@@ -163,6 +163,9 @@ const article = published && {
                 <p class="label">Site</p>
                 <ul>
                   {nav.map((item) => <li><a class="link" href={item.href}>{item.label}</a></li>)}
+                  <li><a class="link" href="/now">Now</a></li>
+                  <li><a class="link" href="/uses">Uses</a></li>
+                  <li><a class="link" href="/cv">Résumé</a></li>
                 </ul>
               </div>
               <div>
@@ -201,8 +204,14 @@ const article = published && {
         minute: '2-digit',
         numberingSystem: 'latn',
       })
-      const tick = () =>
+      const hourFmt = new Intl.DateTimeFormat('en-GB', { timeZone: site.timeZone, hour: 'numeric', hourCycle: 'h23' })
+      // ponytail: rough guess from the clock alone; ignores holidays and weekends.
+      const status = (h: number) => (h < 8 ? 'probably asleep' : h < 17 ? 'at work' : 'evening, may reply')
+      const tick = () => {
         document.querySelectorAll('[data-clock]').forEach((el) => (el.textContent = fmt.format()))
+        const s = status(Number(hourFmt.format()))
+        document.querySelectorAll('[data-status]').forEach((el) => (el.textContent = s))
+      }
       tick()
       setInterval(tick, 15_000)
 

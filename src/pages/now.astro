@@ -1,0 +1,73 @@
+---
+import { now, site } from '../data/site'
+import Base from '../layouts/Base.astro'
+import { formatDate } from '../lib/posts'
+
+const updated = new Date(now.updated)
+---
+
+<Base title="Now" description={`What ${site.name} is working on right now.`}>
+  <section class="container page">
+    <header class="section-head">
+      <p class="label">Now · Updated {formatDate(updated)}</p>
+      <h1>What I'm doing <em class="serif">now</em></h1>
+      <p>
+        A <a class="link" href="https://nownownow.com/about">now page</a>: what has my attention this
+        month. If you're reading this long after the date above, assume some of it has moved on.
+      </p>
+    </header>
+
+    <dl class="rows">
+      {
+        now.items.map((i) => (
+          <div>
+            <dt>{i.title}</dt>
+            <dd class="muted">{i.text}</dd>
+          </div>
+        ))
+      }
+    </dl>
+  </section>
+</Base>
+
+<style>
+  .page {
+    max-width: calc(820px + 2 * var(--gutter));
+    padding-block: clamp(48px, 8vw, 96px) 120px;
+  }
+
+  h1 {
+    font-size: clamp(2.6rem, 7vw, 5rem);
+    letter-spacing: -0.05em;
+  }
+
+  .rows {
+    margin: 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .rows div {
+    display: grid;
+    grid-template-columns: 9rem 1fr;
+    gap: 24px;
+    padding-block: 24px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  dt {
+    font-weight: 600;
+    font-size: 1.15rem;
+  }
+
+  dd {
+    margin: 0;
+    font-size: 1.08rem;
+  }
+
+  @media (max-width: 560px) {
+    .rows div {
+      grid-template-columns: 1fr;
+      gap: 6px;
+    }
+  }
+</style>
