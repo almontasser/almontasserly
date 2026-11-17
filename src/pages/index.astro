@@ -8,12 +8,10 @@ import Icon from '../components/Icon.astro'
 import { contributions, experience, featured, milestones, projects, site, toolbox } from '../data/site'
 import Base from '../layouts/Base.astro'
 import { getGitHub } from '../lib/github'
-import { formatDate, getCaseStudies, getPosts, readingTime } from '../lib/posts'
+import { formatDate, getPosts, readingTime } from '../lib/posts'
 
 const gh = await getGitHub()
 const posts = (await getPosts()).slice(0, 4)
-const studies = await getCaseStudies()
-const studyFor = (name: string) => studies.find((s) => s.data.project === name)
 const num = new Intl.NumberFormat('en-US')
 // Only show star counts once they say something.
 const stars = (repo?: string) => (repo && gh.stars[repo] >= 20 ? gh.stars[repo] : undefined)
@@ -192,13 +190,8 @@ const stack = [
             <p class="tagline">{p.tagline}</p>
             <p class="muted">{p.description}</p>
             <ul class="chips">{p.stack.map((s) => <li class="chip">{s}</li>)}</ul>
-            {(p.links.length > 0 || studyFor(p.name)) && (
+            {p.links.length > 0 && (
               <div class="project-links">
-                {studyFor(p.name) && (
-                  <a class="link" href={`/work/${studyFor(p.name)!.id}`}>
-                    Case study <Icon name="arrow-right" size={14} />
-                  </a>
-                )}
                 {p.links.map((l) => (
                   <a class="link" href={l.href}>
                     {l.label} <Icon name="arrow-up-right" size={14} />
